@@ -1,24 +1,24 @@
 ## Logstash Dockerfile
 
-This repository contains a **Dockerfile** of [Logstash](http://www.elasticsearch.org/) for [Docker's](https://www.docker.com/) [automated build](https://registry.hub.docker.com/u/cgswong/logstash/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
+This repository contains a **Dockerfile** of [Logstash](http://www.elasticsearch.org/) for [Docker's](https://www.docker.com/) [automated build](https://registry.hub.docker.com/u/monsantoco/logstash/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
 It is usually paired with an Elasticsearch instance (search database) and Kibana (as a frontend). Current Logstash version used is 1.4.2
 
 ### Base Docker Image
 
-* [cgswong/java:oracleJDK8](https://registry.hub.docker.com/u/cgswong/java/)
+* [monsantoco/java:orajdk8](https://registry.hub.docker.com/u/monsantoco/java/)
 
 ### Installation
 
 1. Install [Docker](https://www.docker.com/).
 
-2. Download [automated build](https://registry.hub.docker.com/u/cgswong/logstash/) from public [Docker Hub Registry](https://registry.hub.docker.com/): 
+2. Download [automated build](https://registry.hub.docker.com/u/monsantoco/logstash/) from public [Docker Hub Registry](https://registry.hub.docker.com/): 
 
-  `docker pull cgswong/logstash`
+  `docker pull monsantoco/logstash`
 
   (alternatively, you can build an image from Dockerfile:
 
-  `docker build -t="cgswong/logstash" github.com/cgswong/docker-logstash`)
+  `docker build -t="monsantoco/logstash" github.com/monsantoco/docker-logstash`)
 
 ### Usage
 Logstash is set to listen for:
@@ -41,13 +41,13 @@ You can use your own configuration file by:
 To run logstash and connect to a linked Elasticsearch container (which should ideally be started first):
 
 ```sh
-docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 --name logstash cgswong/logstash
+docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 --name logstash monsantoco/logstash
 ```
 
 You can also use a shared storage volume to load in and use your own **logstash.conf** file:
 
 ```sh
-docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 -v /tmp/logstash.conf:/etc/logstash/conf.d/logstash.conf --name logstash cgswong/logstash
+docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 -v /tmp/logstash.conf:/etc/logstash/conf.d/logstash.conf --name logstash monsantoco/logstash
 ```
 
 ### Validation Testing

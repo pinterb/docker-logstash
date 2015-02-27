@@ -16,8 +16,8 @@
 # 2015/02/02 cgwong v1.0.0: Added curl installation, fixed tar issue. Added src directory for complete copy.
 # ################################################################
 
-FROM cgswong/java:oracleJDK8
-MAINTAINER Stuart Wong <cgs.wong@gmail.com>
+FROM monsantoco/java:orajdk8
+MAINTAINER Stuart Wong <carrington.wong@monsanto.com>
 
 # Setup environment
 ENV LS_VERSION 1.4.2
