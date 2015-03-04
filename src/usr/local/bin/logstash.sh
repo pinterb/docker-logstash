@@ -18,7 +18,6 @@
 # #################################################################
 
 # Set environment variables
-LS_HOME=${LS_HOME:-/opt/logstash}
 LS_CFG_FILE=${LS_CFG_FILE:-"/etc/logstash/conf.d/logstash.conf"}
 ES_CLUSTER=${ES_CLUSTER:-"es_cluster01"}
 ES_PORT_9200_TCP_ADDR=${ES_PORT_9200_TCP_ADDR:-localhost}
@@ -26,7 +25,7 @@ ES_PORT_9200_TCP_PORT=${ES_PORT_9200_TCP_PORT:-9200}
 
 # Use the LS_CONFIG_URI env var to download and use custom logstash.conf file.
 if [ ! -z $LS_CFG_URI ] ; then
-    curl -o ${LS_CFG_FILE} ${LS_CONFIG_URI}
+    curl -Ls -o ${LS_CFG_FILE} ${LS_CONFIG_URI}
 else
   # Process the linked container env variables.
   sed -e "s/ES_CLUSTER/${ES_CLUSTER}/g" -i ${LS_CFG_FILE}
@@ -36,9 +35,7 @@ fi
 
 # if `docker run` first argument start with `--` the user is passing launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
-  exec ${LS_HOME}/bin/logstash -f ${LS_CFG_FILE} "$@"
-##  exec ${LS_HOME}/bin/logstash agent -f ${LS_CFG_FILE} web "$@"
-  ##sudo service restart logstash
+  exec /opt/logstash/bin/logstash agent -f ${LS_CFG_FILE} "$@"
 fi
 
 # As argument is not Logstash, assume user want to run his own process, for sample a `bash` shell to explore this image

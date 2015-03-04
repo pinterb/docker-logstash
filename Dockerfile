@@ -44,14 +44,16 @@ RUN groupadd -r ${LS_GROUP} \
   && chown -R ${LS_USER}:${LS_GROUP} ${LS_EXEC} ${LS_HOME}/ ${LS_CFG_DIR} \
   && chmod +x ${LS_EXEC}
 
-# Listen for JSON connections on HTTP port/interface: 5000
+# Listen for syslog connections on tcp/udp port 5000
 EXPOSE 5000
-# Listen for SYSLOG connections on TCP/UDP 5010, and from logstash-forwarder on 5020
-EXPOSE 5010 5020
-# Listen for Log4j connections on TCP 5025
-EXPOSE 5025
+# Listen for journal connections on tcp port 5004
+EXPOSE 5004
+# Listen for JSON connections on tcp port 5100
+EXPOSE 5100
+# Listen for Log4j connections on tcp port 5200
+EXPOSE 5200
 
-##USER ${LS_USER}
+#USER ${LS_USER}
 
 # Expose as volume
 VOLUME ["${LS_CFG_DIR}"]

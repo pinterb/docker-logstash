@@ -2,7 +2,7 @@
 
 This repository contains a **Dockerfile** of [Logstash](http://www.elasticsearch.org/) for [Docker's](https://www.docker.com/) [automated build](https://registry.hub.docker.com/u/monsantoco/logstash/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
-It is usually paired with an Elasticsearch instance (search database) and Kibana (as a frontend). Current Logstash version used is 1.4.2
+It is usually paired with an Elasticsearch instance (search database) and Kibana (as a frontend).
 
 ### Base Docker Image
 
@@ -22,11 +22,10 @@ It is usually paired with an Elasticsearch instance (search database) and Kibana
 
 ### Usage
 Logstash is set to listen for:
-- lines of _JSON_ on TCP port **5000**
-- _SYSLOG_ on TCP and UDP ports **5010**, **5020** (from Logstash Forwarder)
-- Log4J on TCP port **5025**
- 
-Also listens for its local syslog files, and stdin.
+- _SYSLOG_ on TCP and UDP ports **5000**
+- _SYSTEMD_ journals (such as from CoreOS) on TCP ports **5004**
+- lines of _JSON_ on TCP port **5100**
+- Log4J on TCP port **5200**
 
 You would typically link this container to an Elasticsearch container (alias **es**) that exposes port **9200**. The default `logstash.conf` file uses the Docker linked container environment placeholder **ES_PORT_9200_TCP_ADDR** when using a linked Elasticsearch container. This relies on using the default TCP port (9200) with a container alias of **es**.
 
@@ -41,23 +40,17 @@ You can use your own configuration file by:
 To run logstash and connect to a linked Elasticsearch container (which should ideally be started first):
 
 ```sh
-docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 --name logstash monsantoco/logstash
+docker run -d --link elasticsearch:es -p 5000:5000 -p 5000:5000/udp -p 5004:5004 -p 5100:5100 -p 5200:5200 --name logstash monsantoco/logstash
 ```
 
 You can also use a shared storage volume to load in and use your own **logstash.conf** file:
 
 ```sh
-docker run -d --link elasticsearch:es -p 5000:5000 -p 5010:5010 -p 5020:5020 -p 5025:5025 -v /tmp/logstash.conf:/etc/logstash/conf.d/logstash.conf --name logstash monsantoco/logstash
+docker run -d --link elasticsearch:es -p 5000:5000 -p 5000:5000/udp -p 5004:5004 -p 5100:5100 -p 5200:5200 -v /tmp/logstash.conf:/etc/logstash/conf.d/logstash.conf --name logstash monsantoco/logstash
 ```
 
 ### Validation Testing
 To test the setup you will need to send some data to the Logstash container. This can be done as shown below:
-
-```sh
-curl -XPOST <container_host>:9200/logstash-2015.01.07/logs/1 -d '{"@timestamp": "2015-01-07T20:11:45.000Z","@version": "1","count": 2048,"average": 1523.33,"host": "elasticsearch.com"}'
-```
-
-You can also send some test data using:
 
 ```sh
 echo '{"@timestamp": "2015-01-07T20:11:45.000Z","@version": "1","count": 2048,"average": 1523.33,"host": "elasticsearch.com"}' | nc -w 1  <container_host> 5000
