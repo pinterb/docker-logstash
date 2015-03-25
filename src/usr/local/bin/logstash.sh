@@ -99,6 +99,10 @@ elif [ -z "$LS_CFG_USE" ]; then
   fi
   KV_URL=${KV_HOST}:${KV_PORT}
 
+  # Update ES_CLUSTER resources
+  sed -ie "s/es01/$ES_CLUSTER/g" /etc/confd/conf.d/logstash.toml
+  sed -ie "s/es01/$ES_CLUSTER/g" /etc/confd/templates/logstash.conf.tmpl
+
   echo "[logstash] booting container using $KV_TYPE KV backend"
 
   # Loop every 5 seconds until confd has updated the logstash config

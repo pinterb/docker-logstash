@@ -106,8 +106,7 @@ output {
 # Send output to Elasticsearch over HTTP interface.
   elasticsearch {
     protocol  => "http"
-    cluster   => {{getv "/services/logging/es/cluster"}}
-    host      => ["{{range ls "/services/logging/es/host"}}{{.}}{{end}}:9200"]
-    port      => "9200"
+    cluster   => "es01"
+    host      => ["{{ls "/services/logging/es/es01/proxy"}}:{{$data := json .Value}}{{$data.http_port}}{{end}}"]
   }
 }
