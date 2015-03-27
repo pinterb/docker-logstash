@@ -78,7 +78,7 @@ if [ ! -z "$LS_CFG_URL" ]; then
     fi
   fi
 
-  createKey()
+  createKey
 
   # Check/validate config file
   ${LS_HOME}/bin/logstash agent -t -f ${LS_CFG_FILE}
@@ -115,7 +115,7 @@ elif [ -z "$LS_CFG_USE" ]; then
   confd -interval 10 -backend $KV_TYPE -node $KV_URL -config-file /etc/confd/conf.d/logstash.toml &
   echo "[logstash] confd is now monitoring $KV_TYPE for any changes..."
 
-  createKey()
+  createKey
 
   # Publish SSL cert/key to KV store
   if [ "$KV_TYPE" == "etcd" ]; then
