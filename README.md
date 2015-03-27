@@ -5,7 +5,7 @@ It is usually paired with an [Elasticsearch](https://www.elastic.co/products/ela
 
 
 ### How to use this image
-In the simpliest case, to use an external Elasticsearch container with the default `logstash.conf` file set the `LS_CFG_USE`, `ES_CLUSTER`, `ES_HOST` and `ES_PORT` (defaults to 9200) environment variables in the `docker run` command:
+In the simplest case, to use an external Elasticsearch container with the default `logstash.conf` file set the `LS_CFG_USE`, `ES_CLUSTER`, `ES_HOST` and `ES_PORT` (defaults to 9200) environment variables in the `docker run` command:
 
 ```sh
 docker run -d \
