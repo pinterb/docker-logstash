@@ -86,11 +86,11 @@ downloadLSFConfig() {
 
 SanitizeLogstashConfig() {
   # Update logstash.conf file with needed info if they exist
-  sed -e "s|ES_CLUSTER|${ES_CLUSTER}|g" /
-      -e "s|ES_HOST|${ES_HOST}|g" /
-      -e "s|ES_PORT|${ES_PORT}|g" /
-      -e "s|REDIS_HOST|${REDIS_HOST}|g" /
-      -e "s|REDIS_PORT|${REDIS_PORT}|g" /
+  sed -e "s|ES_CLUSTER|${ES_CLUSTER}|g" \
+      -e "s|ES_HOST|${ES_HOST}|g" \
+      -e "s|ES_PORT|${ES_PORT}|g" \
+      -e "s|REDIS_HOST|${REDIS_HOST}|g" \
+      -e "s|REDIS_PORT|${REDIS_PORT}|g" \
       -i "$LS_CFG_FILE"
 }
 
@@ -152,11 +152,11 @@ configKV() {
   fi
 }
 
-downloadLogstashConfig()
-SanitizeLogstashConfig()
-downloadLSFConfig()
-createKey()
-configKV()
+downloadLogstashConfig
+SanitizeLogstashConfig
+downloadLSFConfig
+createKey
+configKV
 
 # Run process, if `docker run` first argument start with `--` the user is passing launcher arguments
 if [ $# -lt 1 ]; then
