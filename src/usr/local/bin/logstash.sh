@@ -158,10 +158,4 @@ downloadLSFConfig
 createKey
 configKV
 
-# Run process, if `docker run` first argument start with `--` the user is passing launcher arguments
-if [ $# -lt 1 ]; then
-  /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
-else
-  # As argument is not Logstash, assume user wants to run his own process, for example a shell to explore this image
-  exec "$@"
-fi
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
