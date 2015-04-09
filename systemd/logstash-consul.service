@@ -24,7 +24,7 @@ ExecStartPre=-/usr/bin/docker stop %p
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=/usr/bin/docker pull monsantoco/logstash
 
-ExecStart=/bin/bash -c "
+ExecStart=/bin/bash -c "\
   /usr/bin/docker run --name %p \
     --publish 5000:5000 \
     --publish 5000:5000/udp \
